@@ -18,7 +18,7 @@
 // });
 
 const db = {
-  users: [
+  user: [
     {
       id: 'd0a70d54-93ba-4ae7-a81a-db0d8998cdc9',
       username: 'Lavern41',
@@ -132,7 +132,11 @@ async function get(tabla, id) {
 }
 
 async function upsert(tabla, data) {
-  db[collection].push(data);
+  if (!db[tabla]) {
+    db[tabla] = [];
+  }
+  db[tabla].push(data);
+  console.log(db);
 }
 
 async function remove(tabla, id) {
