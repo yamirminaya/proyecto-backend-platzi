@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config.js');
+const config = require('../config');
+const error = require('../utils/error');
 
 const secret = config.jwt.secret;
 
@@ -8,7 +9,11 @@ function sign(data) {
 }
 
 function verify(token) {
-  return jwt.verify(token, secret);
+  try {
+    return jwt.verify(token, secret);
+  } catch (error) {
+    throw error('No puedes hacer esto', 401);
+  }
 }
 
 const check = {
@@ -17,13 +22,13 @@ const check = {
     console.log(decoded);
 
     //COMPROBAR SI ES O NO PROPIO
-    if (decoded.id !== owner) throw new Error('No tienes permiso');
+    if (decoded.id !== owner) throw error('No puedes hacer esto', 401);
   },
 };
 
 function getToken(auth) {
   if (!auth) throw new Error('No viene token');
-  if (auth.indexOf('Bearer') === -1) throw new Error('No viene Bearer');
+  if (auth.indexOf('Bearer') === -1) throw error('No viene Bearer', 401);
   let token = auth.replace('Bearer ', '');
   return token;
 }
