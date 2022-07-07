@@ -39,9 +39,7 @@ function decodeHeader(req) {
   const authorization = req.headers.authorization || '';
   const token = getToken(authorization);
   const decoded = verify(token);
-
   req.user = decoded;
-
   return decoded;
 }
 

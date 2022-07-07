@@ -100,7 +100,7 @@ function query(table, query, join) {
       query,
       (err, result) => {
         if (err) return reject(err);
-        resolve(result[0] || null);
+        resolve(result[0] || []);
       }
     );
   });
