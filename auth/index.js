@@ -19,10 +19,12 @@ function verify(token) {
 const check = {
   own: (req, owner) => {
     const decoded = decodeHeader(req);
-    console.log(decoded);
 
     //COMPROBAR SI ES O NO PROPIO
     if (decoded.id !== owner) throw error('No puedes hacer esto', 401);
+  },
+  logged: (req, owner) => {
+    const decoded = decodeHeader(req);
   },
 };
 
@@ -37,7 +39,9 @@ function decodeHeader(req) {
   const authorization = req.headers.authorization || '';
   const token = getToken(authorization);
   const decoded = verify(token);
+
   req.user = decoded;
+
   return decoded;
 }
 
