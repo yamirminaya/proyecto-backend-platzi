@@ -40,11 +40,20 @@ module.exports = function (injectedStore) {
     return store.upsert(TABLA, user);
   }
 
+  async function alreadyFollow(from, to) {
+    const query = [{ user_from: from }, { user_to: to }];
+    const result = await store.multipleQueries(TABLA + '_follow', query);
+    return result.length > 0 ? true : false;
+  }
+
   async function follow(from, to) {
-    return await store.upsert(TABLA + '_follow', {
-      user_from: from,
-      user_to: to,
-    });
+    let result = await alreadyFollow(from, to);
+    if (!result) {
+      return await store.upsert(TABLA + '_follow', {
+        user_from: from,
+        user_to: to,
+      });
+    }
   }
 
   async function following(user) {

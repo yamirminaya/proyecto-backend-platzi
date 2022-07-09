@@ -100,10 +100,23 @@ function query(table, query, join) {
       query,
       (err, result) => {
         if (err) return reject(err);
-        resolve(result[0] || []);
+        resolve(result || []);
       }
     );
   });
 }
 
-module.exports = { list, get, upsert, query };
+function multipleQueries(table, queries) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT * FROM ${table} WHERE ? AND ?`,
+      queries,
+      (err, data) => {
+        if (err) return reject(err);
+        resolve(data);
+      }
+    );
+  });
+}
+
+module.exports = { list, get, upsert, query, multipleQueries };
