@@ -5,8 +5,14 @@ module.exports = {
   jwt: {
     secret: process.env.JWT_SECRET || 'notasecret!',
   },
-  mysqlService: {
-    host: process.env.MYSQL_SRV_HOST || 'localhost',
-    port: process.env.MYSQL_SRV_PORT || 3001,
+  microservices: {
+    mysql: {
+      host: process.env.MYSQL_SRV_HOST || 'localhost',
+      port: process.env.MYSQL_SRV_PORT || 3001,
+    },
+    post: {
+      host: process.env.POST_SRV_HOST || 'localhost',
+      port: process.env.POST_SRV_PORT || 3002,
+    },
   },
 };

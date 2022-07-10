@@ -1,4 +1,3 @@
-const auth = require('../auth');
 const { v4: uuidv4 } = require('uuid');
 
 const TABLA = 'post';

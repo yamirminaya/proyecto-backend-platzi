@@ -10,8 +10,8 @@ app.use(express.urlencoded({ extended: true }));
 // RUTAS
 app.use('/', router);
 
-app.listen(config.mysqlService.port, () =>
+app.listen(config.microservices.mysql.port, () =>
   console.log(
-    `Servicio MySQL escuchando en el puerto ${config.mysqlService.port}!`
+    `Servicio MySQL escuchando en el puerto ${config.microservices.mysql.port}!`
   )
 );
