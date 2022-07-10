@@ -16,6 +16,7 @@
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
+    "request": "^2.88.2",
     "swagger-ui-express": "^4.4.0",
     "uuid": "^8.3.2"
   },
