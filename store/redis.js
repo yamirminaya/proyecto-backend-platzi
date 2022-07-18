@@ -3,9 +3,6 @@ const redis = require('redis');
 const config = require('../config');
 
 const client = redis.createClient({
-  //   host: config.redis.host,
-  //   port: config.redis.port,
-  //   password: config.redis.password,
   url: `redis://${config.redis.user}:${config.redis.password}@${config.redis.host}:${config.redis.port}`,
 });
 
@@ -17,7 +14,7 @@ const client = redis.createClient({
 module.exports = {
   async list(table) {
     const data = await client.get(table);
-    return JSON.stringify(data);
+    return JSON.parse(data);
   },
 
   async get(table, id) {
@@ -31,9 +28,10 @@ module.exports = {
       key = data + '_' + data.id;
     }
 
-    await client.set(key, JSON.stringify(data));
+    await client.set(key, JSON.stringify(data), {
+      EX: 10,
+      NX: true,
+    });
     return true;
   },
 };
-
-// module.exports = { list, get, upsert };

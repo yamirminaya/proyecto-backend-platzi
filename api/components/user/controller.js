@@ -3,14 +3,29 @@ const { v4: uuidv4 } = require('uuid');
 
 const TABLA = 'user';
 
-module.exports = function (injectedStore) {
+module.exports = function (injectedStore, injectedCache) {
   let store = injectedStore;
   if (!store) {
     store = require('../../../store/dummy');
   }
 
-  function list() {
-    return store.list(TABLA);
+  let cache = injectedCache;
+  if (!cache) {
+    cache = require('../../../store/dummy');
+  }
+
+  async function list() {
+    let users = await cache.list(TABLA);
+
+    if (!users) {
+      console.log('USERS: No estaba en caché. Buscando en DB');
+      users = await store.list(TABLA);
+      cache.upsert(TABLA, users);
+    } else {
+      console.log('USERS: Nos traemos datos de cache');
+    }
+
+    return users;
   }
 
   function get(id) {
